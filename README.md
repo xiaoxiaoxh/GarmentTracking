@@ -1,8 +1,7 @@
 # GarmentTracking
 
 ## Datasets
-
-Put all the data under `%PROJECT_DIR/data`.
+All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put all the data under `%PROJECT_DIR/data` or any other location.
 
 - Folding
   - `vr_simulation_folding2_dataset.zarr/Tshirt`
@@ -54,13 +53,13 @@ Here is the example for training ( `Tshirt`, `Folding` task):
 python train_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt logger.offline=False  logger.name=Tshirt-folding2-tracking
 ```
 
-Here `logger.offline=False` will enable online syncing (eg. losses, logs, visualization) for [wandb](wandb.ai). You can use offline syncing mode by setting`logger.offline=False`. 
+Here `logger.offline=False` will enable online syncing (eg. losses, logs, visualization) for [wandb](wandb.ai). You can use offline syncing mode by setting`logger.offline=True`. You can set `datamodule.batch_size=8` if the GPU memory is not large enough.
 
 Each running will create a new working directory (eg. `2022-11-03/12-33-00`) under `%PROJECT_DIR/outputs` which contains all the checkpoints and logs.
 
 ## Inference
 
-Here are some examples for training ( `Tshirt`, `Folding` task):
+Here are some examples for inference ( `Tshirt`, `Folding` task):
 
 - First-frame Initialization with GT:
 
@@ -74,7 +73,7 @@ python predict_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_data
 python predict_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt datamodule.use_fist_frame_pc_nocs_aug_in_test=True datamodule.use_pc_nocs_frame1_aug=True datamodule.use_mesh_nocs_aug=True datamodule.use_fist_frame_mesh_nocs_aug_in_test=True datamodule.pc_nocs_global_scale_aug_range=[0.8,1.2] datamodule.pc_nocs_global_max_offset_aug=0.1 datamodule.pc_nocs_gaussian_std=0.05 datamodule.mesh_nocs_global_scale_aug_range=[0.8,1.2] prediction.max_refine_mesh_step=1 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt  logger.name=Tshirt-folding2-tracking_test-noise
 ```
 
-### Evaluation
+## Evaluation
 
 Here is the example for evaluation ( `Tshirt`, `Folding` task):
 
