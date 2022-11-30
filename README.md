@@ -21,6 +21,7 @@ Put all the data under `%PROJECT_DIR/data`.
 
 - Python >= 3.7
 - Pytorch >= 1.9.1
+- CUDA >= 11.1
 
 Please use the following commands to setup environments (we highly recommend installing Pytorch with pip for compatibility).
 
