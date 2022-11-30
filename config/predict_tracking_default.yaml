@@ -16,8 +16,6 @@ datamodule:
   # surface sample gt-sim points noise
   surface_gt_normal_noise_ratio: 0
   surface_gt_normal_std: 0.01
-  # mesh-pc matching config
-  use_two_frame_matching: False
   # feature config
   use_rgb: True
   use_nocs_as_feature: False

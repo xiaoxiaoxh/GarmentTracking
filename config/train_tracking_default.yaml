@@ -18,8 +18,6 @@ datamodule:
   # surface sample gt-sim points noise
   surface_gt_normal_noise_ratio: 0
   surface_gt_normal_std: 0.01
-  # mesh-pc matching config
-  use_two_frame_matching: False
   # feature config
   use_rgb: True
   use_nocs_as_feature: False
@@ -97,8 +95,6 @@ garment_tracking_model:
     reduce_method: max
     include_point_feature: True
     use_gt_nocs_for_train: True
-    include_gt_grip_point: False
-    include_frame2_gt_grip_nocs_delta: False
     use_mlp_v2: True
   unet3d_params:
     in_channels: 128
