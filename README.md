@@ -73,7 +73,7 @@ python predict_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_data
 python predict_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt datamodule.use_fist_frame_pc_nocs_aug_in_test=True datamodule.use_pc_nocs_frame1_aug=True datamodule.use_mesh_nocs_aug=True datamodule.use_fist_frame_mesh_nocs_aug_in_test=True datamodule.pc_nocs_global_scale_aug_range=[0.8,1.2] datamodule.pc_nocs_global_max_offset_aug=0.1 datamodule.pc_nocs_gaussian_std=0.05 datamodule.mesh_nocs_global_scale_aug_range=[0.8,1.2] prediction.max_refine_mesh_step=1 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt  logger.name=Tshirt-folding2-tracking_test-noise
 ```
 
-### Evaluation
+## Evaluation
 
 Here is the example for evaluation ( `Tshirt`, `Folding` task):
 
