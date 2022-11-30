@@ -53,7 +53,7 @@ Here is the example for training ( `Tshirt`, `Folding` task):
 python train_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt logger.offline=False  logger.name=Tshirt-folding2-tracking
 ```
 
-Here `logger.offline=False` will enable online syncing (eg. losses, logs, visualization) for [wandb](wandb.ai). You can use offline syncing mode by setting`logger.offline=False`. 
+Here `logger.offline=False` will enable online syncing (eg. losses, logs, visualization) for [wandb](wandb.ai). You can use offline syncing mode by setting`logger.offline=True`. 
 
 Each running will create a new working directory (eg. `2022-11-03/12-33-00`) under `%PROJECT_DIR/outputs` which contains all the checkpoints and logs.
 
