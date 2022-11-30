@@ -59,7 +59,7 @@ Each running will create a new working directory (eg. `2022-11-03/12-33-00`) und
 
 ## Inference
 
-Here are some examples for training ( `Tshirt`, `Folding` task):
+Here are some examples for inference ( `Tshirt`, `Folding` task):
 
 - First-frame Initialization with GT:
 
