@@ -1,0 +1,133 @@
+datamodule:
+  # must use the absolute path of dataset to work with hydra
+  zarr_path: ~/dev/garmentnets/data/garmentnets_dataset.zarr/Dress
+  video_info_path: None
+  metadata_cache_dir: ~/local/.cache/metadata_cache_dir
+  use_file_attr_cache: True
+  batch_size: 16
+  num_workers: 4
+  # sample size
+  num_pc_sample: 8000
+  num_pc_sample_final: 4000
+  num_volume_sample: 0
+  num_surface_sample: 6000
+  num_surface_sample_init: 10000
+  # mixed sampling config
+  surface_sample_ratio: 0
+  surface_sample_std: 0.05
+  # surface sample gt-sim points noise
+  surface_gt_normal_noise_ratio: 0
+  surface_gt_normal_std: 0.01
+  # mesh-pc matching config
+  use_two_frame_matching: False
+  # feature config
+  use_rgb: True
+  use_nocs_as_feature: False
+  # voxelization config
+  voxel_size: 0.0025
+  # data augumentation
+  enable_augumentation: True
+  random_rot_range: [-180,180]
+  enable_zero_center: False
+  num_views: 4
+  pc_noise_std: 0
+  use_pc_nocs_frame1_aug: True
+  pc_nocs_global_scale_aug_range: [0.8, 1.2]
+  pc_nocs_global_max_offset_aug: 0.1
+  pc_nocs_gaussian_std: 0
+  use_pc_nocs_ball_offset_aug: False
+  pc_nocs_ball_query_radius_range: [0.0, 0.2]
+  pc_nocs_ball_query_max_nn: 400
+  use_mesh_nocs_aug: True
+  mesh_nocs_global_scale_aug_range: [0.8, 1.2]
+  mesh_nocs_global_max_offset_aug: 0
+  # volume
+  volume_size: 128
+  # or nocs_signed_distance_field or nocs_occupancy_grid or sim_nocs_winding_number_field or nocs_distance_field
+  volume_group: nocs_winding_number_field
+  # use 0.05
+  tsdf_clip_value: null
+  volume_absolute_value: False
+  # random seed
+  static_epoch_seed: False
+  is_val: True
+  # datamodule config
+  dataset_split: [8,1,1]
+  split_seed: 0
+  remove_invalid_interval_in_train: True
+  # first-frame fitting config
+  alpha: 1000.0
+  finetune_offset: [0., -0.03, 0.]
+
+garment_tracking_model:
+  sparse_unet3d_encoder_params:
+    in_channels: 3
+    out_channels: 64
+    conv1_kernel_size: 5
+    normalize_feature: False
+    predict_segm: False
+    CHANNELS: [None, 64, 64, 128, 256]
+    TR_CHANNELS: [None, 64, 64, 64, 128]
+  transformer_params:
+    input_channels: 3
+    use_xyz: True
+    input_size: 4000
+    d_model: 64
+    num_layers: 1
+    key_feature_dim: 64
+    with_pos_embed: True
+    encoder_pos_embed_input_dim: 6
+    decoder_pos_embed_input_dim: 3
+    inverse_source_template: False
+    fea_channels: [64, 128, 128]
+    feat_slim_last_layer: True
+    nocs_slim_last_layer: True
+    nocs_bins: 64
+    nocs_channels: [128, 128, 128, 192]
+  nocs_refiner_params:
+    detach_input_pc_feature: True
+    detach_global_pc_feature: False
+    detach_global_mesh_feature: True
+  volume_agg_params:
+    nn_channels: [134, 256, 128]
+    batch_norm: True
+    lower_corner: [0,0,0]
+    upper_corner: [1,1,1]
+    grid_shape: [32,32,32]
+    reduce_method: max
+    include_point_feature: True
+    use_gt_nocs_for_train: True
+    include_gt_grip_point: False
+    include_frame2_gt_grip_nocs_delta: False
+    use_mlp_v2: True
+  unet3d_params:
+    in_channels: 128
+    out_channels: 128
+    f_maps: 32
+    layer_order: gcr
+    num_groups: 8
+    num_levels: 4
+  surface_decoder_params:
+    nn_channels: [128,256,256,3]
+    batch_norm: True
+    use_mlp_v2: True
+  warp_loss_weight: 10.0
+  nocs_loss_weight: 1.0
+  mesh_loss_weight: 10.0
+  use_nocs_refiner: True
+  learning_rate: 0.0001
+  optimizer_type: Adam
+  loss_type: l2
+  vis_per_items: 200
+  max_vis_per_epoch_train: 10
+  max_vis_per_epoch_val: 10
+  debug: False
+trainer:
+  gpus: [0]
+logger:
+  offline: True
+  name: null
+  tags: []
+logger_watch:
+  log: gradients
+  log_freq: 100

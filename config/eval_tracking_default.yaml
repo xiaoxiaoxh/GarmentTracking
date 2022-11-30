@@ -1,0 +1,30 @@
+main:
+  prediction_output_dir: ~/dev/garmentnets/outputs/2021-07-31/01-43-33
+  # negative for using all cores avaliable
+  num_workers: 1
+eval:
+  compute_pc_metrics:
+    enabled: True
+  compute_chamfer:
+    enabled: True
+  compute_euclidian:
+    enabled: True
+vis:
+  random_sample_regular: False
+  vis_sample_idxs_range: [0, 200]
+  rank_metric: 'euclidian_sim'
+  num_normal: 4
+  num_best: 4
+  num_worst: 10
+  task_mesh_vis:
+    offset: [0.8,0,0]
+  nocs_mesh_vis:
+    offset: [0.3,0,0]
+    value_delta: 0.1
+  nocs_pc_vis:
+    offset: [1.0,0,0]
+  save_point_cloud: False
+logger:
+  mode: offline
+  name: null
+  tags: []
