@@ -1,8 +1,7 @@
 # GarmentTracking
 
 ## Datasets
-
-Put all the data under `%PROJECT_DIR/data`.
+All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. Please put all the data under `%PROJECT_DIR/data`.
 
 - Folding
   - `vr_simulation_folding2_dataset.zarr/Tshirt`
