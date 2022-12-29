@@ -11,6 +11,9 @@ eval:
     enabled: True
 vis:
   random_sample_regular: False
+  samples_per_instance: 50
+  samples_per_video: 20
+  first_samples_num: 200
   vis_sample_idxs_range: [0, 200]
   rank_metric: 'euclidian_sim'
   num_normal: 4
