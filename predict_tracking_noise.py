@@ -96,7 +96,7 @@ def get_mc_surface(pred_samples_group, group_key,
 # %%
 # main script
 @hydra.main(config_path="config",
-            config_name="predict_tracking_default")
+            config_name="predict_tracking_noise")
 def main(cfg: DictConfig) -> None:
     # hydra creates working directory automatically
     pred_output_dir = os.getcwd()
