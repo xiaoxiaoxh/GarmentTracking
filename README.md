@@ -1,28 +1,22 @@
 # GarmentTracking
 
-## Datasets
-All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put all the data under `%PROJECT_DIR/data` or any other location.
+This repository contains the source code for the paper [GarmentTracking: Category-Level Garment Pose Tracking](https://sites.google.com/view/garment-tracking). This paper has been accepted to CVPR 2023.
 
-- Folding
-  - `vr_simulation_folding2_dataset.zarr/Tshirt`
-  - `vr_simulation_folding2_dataset.zarr/Trousers`
-  - `vr_simulation_folding2_dataset.zarr/Top`
-  - `vr_simulation_folding2_dataset.zarr/Skirt`
-- Flattening
-  - `vr_simulation_flattening-grasp2_dataset.zarr/Tshirt`
-  - `vr_simulation_flattening-grasp2_dataset.zarr/Trousers`
-  - `vr_simulation_flattening-grasp2_dataset.zarr/Top`
-  - `vr_simulation_flattening-grasp2_dataset.zarr/Skirt`
+![network](assets/network.png)
+
+## Datasets
+
+Please download [VR-Foling Dataset](https://huggingface.co/datasets/robotflow/garment-tracking) from Hugging Face. All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put data under `%PROJECT_DIR/data` or any other location.
 
 ## Environment
 
 ### Requirements
 
-- Python >= 3.7
+- Python >= 3.8
 - Pytorch >= 1.9.1
 - CUDA >= 11.1
 
-Please use the following commands to setup environments (we highly recommend installing Pytorch with pip for compatibility).
+Please use the following commands to setup environments (we highly recommend installing Pytorch with pip for compatibility). The 3D feature extractor used in our paper is based on [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine).
 
 ```
 conda create -n garment_tracking python=3.9
@@ -50,7 +44,7 @@ pip install torch-geometric torch-scatter torch_sparse torch_cluster torchmetric
 Here is the example for training ( `Tshirt`, `Folding` task):
 
 ```bash
-python train_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt logger.offline=False  logger.name=Tshirt-folding2-tracking
+python train_tracking.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt logger.offline=False  logger.name=Tshirt-folding-tracking
 ```
 
 Here `logger.offline=False` will enable online syncing (eg. losses, logs, visualization) for [wandb](wandb.ai). You can use offline syncing mode by setting`logger.offline=True`. You can set `datamodule.batch_size=8` if the GPU memory is not large enough.
@@ -61,24 +55,26 @@ Each running will create a new working directory (eg. `2022-11-03/12-33-00`) und
 
 Here are some examples for inference ( `Tshirt`, `Folding` task):
 
-- First-frame Initialization with GT:
+- First-frame initialization with GT:
 
 ```bash
-python predict_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt datamodule.use_fist_frame_pc_nocs_aug_in_test=False datamodule.use_pc_nocs_frame1_aug=False datamodule.use_mesh_nocs_aug=False datamodule.use_fist_frame_mesh_nocs_aug_in_test=False main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt prediction.use_garmentnets_prediction=False logger.name=Tshirt-folding2-tracking_test-gt
+python predict_tracking_gt.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt prediction.max_refine_mesh_step=0 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt logger.name=Tshirt-folding-tracking_test-gt
 ```
 
-- First-frame Initialization with noise:
+- First-frame initialization with noise:
 
 ```bash
-python predict_tracking.py datamodule.zarr_path=data/vr_simulation_folding2_dataset.zarr/Tshirt datamodule.use_fist_frame_pc_nocs_aug_in_test=True datamodule.use_pc_nocs_frame1_aug=True datamodule.use_mesh_nocs_aug=True datamodule.use_fist_frame_mesh_nocs_aug_in_test=True datamodule.pc_nocs_global_scale_aug_range=[0.8,1.2] datamodule.pc_nocs_global_max_offset_aug=0.1 datamodule.pc_nocs_gaussian_std=0.05 datamodule.mesh_nocs_global_scale_aug_range=[0.8,1.2] prediction.max_refine_mesh_step=1 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt  logger.name=Tshirt-folding2-tracking_test-noise
+python predict_tracking_noise.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt prediction.max_refine_mesh_step=1 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt  logger.name=Tshirt-folding-tracking_test-noise
 ```
+
+For *Folding* task, we recommend using `prediction.max_refine_mesh_step=1`. For *Flattening* task, we recommend using `prediction.max_refine_mesh_step=15`.
 
 ## Evaluation
 
 Here is the example for evaluation ( `Tshirt`, `Folding` task):
 
 ```bash
-python eval_tracking.py main.prediction_output_dir=/home/xuehan/GarmentTracking/outputs/2022-11-07/14-48-52  logger.name=Tshirt-folding2-tracking-base10_test-gt
+python eval_tracking.py main.prediction_output_dir=/home/xuehan/GarmentTracking/outputs/2022-11-07/14-48-52  logger.name=Tshirt-folding-tracking-base10_test-gt
 ```
 
 The evaluation will also generate some visualization examples in the form of logs in [wandb](wandb.ai). You can set `logger.offline=False` if you want to enable automatic online syncing for [wandb](wandb.ai). You can also manually sync the logs later in offline mode by default.
