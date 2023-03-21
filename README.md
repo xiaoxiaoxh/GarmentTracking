@@ -1,6 +1,6 @@
 # GarmentTracking
 
-This repository contains the source code for the paper [GarmentTracking: Category-Level Garment Pose Tracking](https://sites.google.com/view/garment-tracking). This paper has been accepted to CVPR 2023.
+This repository contains the source code for the paper [GarmentTracking: Category-Level Garment Pose Tracking](https://garment-tracking.robotflow.ai/). This paper has been accepted to CVPR 2023.
 
 ![network](assets/network.png)
 
