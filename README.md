@@ -6,7 +6,7 @@ This repository contains the source code for the paper [GarmentTracking: Categor
 
 ## Datasets
 
-Please download [VR-Foling Dataset](https://huggingface.co/datasets/robotflow/garment-tracking) from Hugging Face. All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put data under `%PROJECT_DIR/data` or any other location.
+Please download [VR-Folding Dataset](https://huggingface.co/datasets/robotflow/garment-tracking) from Hugging Face. All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put data under `%PROJECT_DIR/data` or any other location.
 
 ## Environment
 
@@ -58,13 +58,13 @@ Here are some examples for inference ( `Tshirt`, `Folding` task):
 - First-frame initialization with GT:
 
 ```bash
-python predict_tracking_gt.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt prediction.max_refine_mesh_step=0 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt logger.name=Tshirt-folding-tracking_test-gt
+python predict_tracking_gt.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt prediction.max_refine_mesh_step=0 main.checkpoint_path=outputs/2022-11-03/12-33-00/checkpoints/last.ckpt logger.name=Tshirt-folding-tracking_test-gt
 ```
 
 - First-frame initialization with noise:
 
 ```bash
-python predict_tracking_noise.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt prediction.max_refine_mesh_step=1 main.checkpoint_path=/home/xuehan/GarmentTracking/outputs/2022-11-03/12-33-00/checkpoints/last.ckpt  logger.name=Tshirt-folding-tracking_test-noise
+python predict_tracking_noise.py datamodule.zarr_path=data/vr_folding_dataset.zarr/Tshirt prediction.max_refine_mesh_step=1 main.checkpoint_path=outputs/2022-11-03/12-33-00/checkpoints/last.ckpt  logger.name=Tshirt-folding-tracking_test-noise
 ```
 
 For *Folding* task, we recommend using `prediction.max_refine_mesh_step=1`. For *Flattening* task, we recommend using `prediction.max_refine_mesh_step=15`.
@@ -74,7 +74,7 @@ For *Folding* task, we recommend using `prediction.max_refine_mesh_step=1`. For 
 Here is the example for evaluation ( `Tshirt`, `Folding` task):
 
 ```bash
-python eval_tracking.py main.prediction_output_dir=/home/xuehan/GarmentTracking/outputs/2022-11-07/14-48-52  logger.name=Tshirt-folding-tracking-base10_test-gt
+python eval_tracking.py main.prediction_output_dir=outputs/2022-11-07/14-48-52  logger.name=Tshirt-folding-tracking-base10_test-gt
 ```
 
 The evaluation will also generate some visualization examples in the form of logs in [wandb](wandb.ai). You can set `logger.offline=False` if you want to enable automatic online syncing for [wandb](wandb.ai). You can also manually sync the logs later in offline mode by default.
