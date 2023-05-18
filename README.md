@@ -8,6 +8,10 @@ This repository contains the source code for the paper [GarmentTracking: Categor
 
 Please download [VR-Folding Dataset](https://huggingface.co/datasets/robotflow/vr-folding) from Hugging Face. All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put data under `%PROJECT_DIR/data` or any other location.
 
+## Pre-trained Model
+
+Please download [checkpoints](https://drive.google.com/file/d/1ATy_rWQ13P_AAaP8wvQd41uVvL6UOco2/view?usp=share_link) from Google Drive.
+
 ## Environment
 
 ### Requirements
