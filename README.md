@@ -5,6 +5,7 @@ This repository contains the source code for the paper [GarmentTracking: Categor
 ![network](assets/network.png)
 
 ## Datasets
+The dataset is collected by [VR-Garment](https://github.com/xiaoxiaoxh/VR-Garment) recording system.
 
 Please download [VR-Folding Dataset](https://huggingface.co/datasets/robotflow/vr-folding) from Hugging Face. All the data are stored in [zarr](https://zarr.readthedocs.io/en/stable/) format. You can put data under `%PROJECT_DIR/data` or any other location.
 
